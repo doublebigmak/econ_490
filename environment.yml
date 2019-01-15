@@ -83,5 +83,14 @@ dependencies:
   - winpty=0.4.3=4
   - zeromq=4.2.5=he025d50_1
   - zlib=1.2.11=h62dcd97_3
+  - pip:
+    - chardet==3.0.4
+    - idna==2.8
+    - oauthlib==3.0.0
+    - pysocks==1.6.8
+    - requests==2.21.0
+    - requests-oauthlib==1.2.0
+    - tweepy==3.7.0
+    - urllib3==1.24.1
 prefix: C:\Users\makmi\Anaconda3\envs\econ_490
 
