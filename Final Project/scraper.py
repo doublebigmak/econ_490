@@ -2,8 +2,11 @@ from bs4 import BeautifulSoup
 import requests
 
 url = 'https://www.federalreserve.gov/newsevents/pressreleases/monetary20190130a.htm'
+url2='https://www.federalreserve.gov/newsevents/pressreleases/monetary20181108a.htm'
+url_new='https://www.federalreserve.gov/newsevents/pressreleases/monetary20141217a.htm'
+url_oldest_new='https://www.federalreserve.gov/newsevents/pressreleases/monetary20060510a.htm'
 
-response = requests.get(url, timeout=5)
+response = requests.get(url_old, timeout=5)
 
 parsed_content = BeautifulSoup(response.content, "html.parser")
 
