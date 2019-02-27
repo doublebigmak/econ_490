@@ -24,9 +24,10 @@ def parse_old(response):
 
     parsed_content = BeautifulSoup(response.content, "html.parser")
 
-    text=parsed_content.find_all('td','p')
+    text=parsed_content.find_all('td')
+    
 
-    return text
+    return text[1]
 
 text = parse_old(response)
 
