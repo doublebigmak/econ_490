@@ -8,9 +8,11 @@ url_oldest_new='https://www.federalreserve.gov/newsevents/pressreleases/monetary
 url_old_2 = 'https://www.federalreserve.gov/boarddocs/press/monetary/2004/20040128/default.htm'
 url_oldest = 'https://www.federalreserve.gov/boarddocs/press/general/2000/20000202/'
 
-response = requests.get(url_oldest, timeout=5)
+url_base ='https://www.federalreserve.gov/' 
 
+url_news=[url,url2,url_new,url_oldest_new]
 
+url_olds = [url_old_2,url_oldest]
 
 def parse_new(response):
    
@@ -26,15 +28,41 @@ def parse_old(response):
 
     text=parsed_content.find_all('td')
     
+    if len(text)==1:
+        return text[0]
 
-    return text[1]
+    else:
+        return text[1]
 
-text = parse_old(response)
+#text = parse_old(response)
+#text = parse_new(response)
+def select_par(text):
+
+    paragraphs = []
+    for i in text.find_all('p'):
+        i=i.text
+        paragraphs.append(i)
+    
+    print(paragraphs)
+    return paragraphs
+    
 
 #print(text.find_all('p'))
-paragraphs = []
-for i in text.find_all('p'):
-    i=i.text
-    paragraphs.append(i)
 
-print(paragraphs)
+for i in url_news:
+    print('\nScraping',i)
+    response = requests.get(i, timeout=5)
+    print('Parsing')
+    text = parse_new(response)
+    
+    select_par(text)
+
+print('\n Old')
+
+for i in url_olds:
+    print('\nScraping',i)
+    response = requests.get(i, timeout=5)
+    print('Parsing')
+    text = parse_old(response)
+    
+    select_par(text)
