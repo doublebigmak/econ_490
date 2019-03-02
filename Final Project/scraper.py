@@ -1,26 +1,18 @@
 from bs4 import BeautifulSoup
 import requests
 import re
-import numpy as np
+
 import pandas as pd
 import csv
 
 
 
-url = 'https://www.federalreserve.gov/newsevents/pressreleases/monetary20190130a.htm'
-url2='https://www.federalreserve.gov/newsevents/pressreleases/monetary20181108a.htm'
-url_new='https://www.federalreserve.gov/newsevents/pressreleases/monetary20141217a.htm'
-url_oldest_new='https://www.federalreserve.gov/newsevents/pressreleases/monetary20060510a.htm'
-url_old_2 = 'https://www.federalreserve.gov/boarddocs/press/monetary/2004/20040128/default.htm'
-url_oldest = 'https://www.federalreserve.gov/boarddocs/press/general/2000/20000202/'
 
-url_base ='https://www.federalreserve.gov/'
 url_addon = 'newsevents/pressreleases/monetary'
 
 url_addon_2='boarddocs/press/'
 
-
-urls=[url,url2,url_new,url_oldest_new,url_old_2,url_oldest]
+url_base ='https://www.federalreserve.gov/'
 
 
 
@@ -69,7 +61,7 @@ def remove_escape(paragraph):
 def check_404(url):
 
     
-    response = requests.get(url, timeout=5)
+    response = requests.get(url, timeout=10)
     parsed_content = BeautifulSoup(response.content, "html.parser")
     try:
         return parsed_content.find('h2').text=='Page not found'
@@ -83,23 +75,10 @@ def is_new_page(response):
     return parsed_content.find('meta', attrs={'content':'IE=edge'})!=None
 
 
-""" for i in urls:
-    print('\nScraping',i)
-    response = requests.get(i, timeout=5)
-    print('Parsing')
-    if is_new_page(response):
-
-        text = parse_new(response)
-    else:
-        print('old')
-        text=parse_old(response)
-    
-    select_par(text) """
-
 def scrape_func(url,date):
 
     print('\nScraping',url)
-    response = requests.get(url, timeout=5)
+    response = requests.get(url, timeout=10)
     print('Parsing')
     if is_new_page(response):
 
@@ -115,13 +94,13 @@ def scrape_func(url,date):
 
         paragraph=select_par(text)
         paragraph.append(date)
-        with open(date,'wb') as file:
+        with open(date+'.csv','w') as file:
             wr = csv.writer(file, quoting=csv.QUOTE_ALL)
             wr.writerow(paragraph)
 
 
-date1 = '2004-01-01'
-date2 = '2010-01-01'
+date1 = '2000-01-01'
+date2 = '2004-01-01'
 dates = pd.date_range(date1, date2,freq='B')
 stringed_dates = dates.strftime('%Y%m%d')
 
