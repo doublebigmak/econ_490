@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import pandas as pd
-
+import csv
 
 
 url = 'https://www.federalreserve.gov/newsevents/pressreleases/monetary20190130a.htm'
@@ -40,10 +40,12 @@ def parse_old(response):
         return text[0]
 
     else:
-        return text[1]
+        try:
+            return text[1]
+        except IndexError as e:
+            pass
 
-#text = parse_old(response)
-#text = parse_new(response)
+
 def select_par(text):
 
     paragraphs = []
@@ -57,13 +59,15 @@ def select_par(text):
     
 def remove_escape(paragraph):
     
-    regex = re.compile(r'[\n\r\t]')
+    regex = re.compile(r'[\n\r\t\xa0]')
     paragraph = regex.sub("", paragraph)
     
     return paragraph
 
-def check_404(response):
+def check_404(url):
+
     
+    response = requests.get(url, timeout=5)
     parsed_content = BeautifulSoup(response.content, "html.parser")
     try:
         return parsed_content.find('h2').text=='Page not found'
@@ -77,7 +81,7 @@ def is_new_page(response):
     return parsed_content.find('meta', attrs={'content':'IE=edge'})!=None
 
 
-for i in urls:
+""" for i in urls:
     print('\nScraping',i)
     response = requests.get(i, timeout=5)
     print('Parsing')
@@ -88,5 +92,47 @@ for i in urls:
         print('old')
         text=parse_old(response)
     
-    select_par(text)
+    select_par(text) """
 
+def scrape_func(url,date):
+
+    print('\nScraping',url)
+    response = requests.get(url, timeout=5)
+    print('Parsing')
+    if is_new_page(response):
+
+        text = parse_new(response)
+    else:
+        print('old')
+        text=parse_old(response)
+    
+    if text==None:
+        return None
+
+    else:
+
+        paragraph=select_par(text)
+        paragraph.append(date)
+        with open(date,'wb') as file:
+            wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+            wr.writerow(paragraph)
+
+
+date1 = '2004-01-01'
+date2 = '2010-01-01'
+dates = pd.date_range(date1, date2,freq='B')
+stringed_dates = dates.strftime('%Y%m%d')
+
+def main():
+    for date in stringed_dates:
+        if check_404(url_base+'boarddocs/press/'+'general/'+date[:4]+'/'+date+'/')==False:
+            url = url_base+'boarddocs/press/'+'general/'+date[:4]+'/'+date+'/'
+            scrape_func(url,date)
+        elif check_404(url_base+'boarddocs/press/'+'monetary/'+date[:4]+'/'+date+'/'+'default.htm')==False:
+            url = url_base+'boarddocs/press/'+'monetary/'+date[:4]+'/'+date+'/'+'default.htm'
+            scrape_func(url,date)
+        elif check_404(url_base+'newsevents/pressreleases/monetary'+date+'a.htm')==False:
+            url=url_base+'newsevents/pressreleases/monetary'+date+'a.htm'
+            scrape_func(url,date)
+        else:
+            pass
