@@ -1,5 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
+import re
+
+
 
 url = 'https://www.federalreserve.gov/newsevents/pressreleases/monetary20190130a.htm'
 url2='https://www.federalreserve.gov/newsevents/pressreleases/monetary20181108a.htm'
@@ -39,13 +42,20 @@ def parse_old(response):
 def select_par(text):
 
     paragraphs = []
-    for i in text.find_all('p'):
-        i=i.text
-        paragraphs.append(i)
+    for para in text.find_all('p'):
+        para=para.text
+        para=remove_escape(para)
+        paragraphs.append(para)
     
     print(paragraphs)
     return paragraphs
     
+def remove_escape(paragraph):
+    
+    regex = re.compile(r'[\n\r\t]')
+    paragraph = regex.sub("", paragraph)
+    
+    return paragraph
 
 #print(text.find_all('p'))
 
