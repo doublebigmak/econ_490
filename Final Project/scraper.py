@@ -11,11 +11,15 @@ url_oldest_new='https://www.federalreserve.gov/newsevents/pressreleases/monetary
 url_old_2 = 'https://www.federalreserve.gov/boarddocs/press/monetary/2004/20040128/default.htm'
 url_oldest = 'https://www.federalreserve.gov/boarddocs/press/general/2000/20000202/'
 
-url_base ='https://www.federalreserve.gov/' 
+url_base ='https://www.federalreserve.gov/'
+url_addon = 'newsevents/pressreleases/monetary'
 
-url_news=[url,url2,url_new,url_oldest_new]
+url_addon_2='boarddocs/press/'
 
-url_olds = [url_old_2,url_oldest]
+
+urls=[url,url2,url_new,url_oldest_new,url_old_2,url_oldest]
+
+
 
 def parse_new(response):
    
@@ -57,22 +61,30 @@ def remove_escape(paragraph):
     
     return paragraph
 
-#print(text.find_all('p'))
-
-for i in url_news:
-    print('\nScraping',i)
-    response = requests.get(i, timeout=5)
-    print('Parsing')
-    text = parse_new(response)
+def check_404(response):
     
-    select_par(text)
+    parsed_content = BeautifulSoup(response.content, "html.parser")
+    try:
+        return parsed_content.find('h2').text=='Page not found'
+    except AttributeError as e:
+        return False
 
-print('\n Old')
+def is_new_page(response):
+    
+    parsed_content = BeautifulSoup(response.content, "html.parser")
 
-for i in url_olds:
+    return parsed_content.find('meta', attrs={'content':'IE=edge'})!=None
+
+
+for i in urls:
     print('\nScraping',i)
     response = requests.get(i, timeout=5)
     print('Parsing')
-    text = parse_old(response)
+    if is_new_page(response):
+
+        text = parse_new(response)
+    else:
+        print('old')
+        text=parse_old(response)
     
     select_par(text)
