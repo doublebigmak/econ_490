@@ -1,8 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
 import re
+import numpy as np
 import pandas as pd
 import csv
+
 
 
 url = 'https://www.federalreserve.gov/newsevents/pressreleases/monetary20190130a.htm'
@@ -114,7 +116,7 @@ def scrape_func(url,date):
         paragraph=select_par(text)
         paragraph.append(date)
         with open(date,'wb') as file:
-            wr = csv.writer(myfile, quoting=csv.QUOTE_ALL)
+            wr = csv.writer(file, quoting=csv.QUOTE_ALL)
             wr.writerow(paragraph)
 
 
@@ -136,3 +138,5 @@ def main():
             scrape_func(url,date)
         else:
             pass
+
+main()
