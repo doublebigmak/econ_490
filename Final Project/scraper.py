@@ -4,7 +4,7 @@ import re
 
 import pandas as pd
 import csv
-
+import os
 
 
 
@@ -53,7 +53,7 @@ def select_par(text):
     
 def remove_escape(paragraph):
     
-    regex = re.compile(r'[\n\r\t\xa0]')
+    regex = re.compile(r'[\n\r\t\xa0\u2003\u2011]')
     paragraph = regex.sub("", paragraph)
     
     return paragraph
@@ -99,8 +99,8 @@ def scrape_func(url,date):
             wr.writerow(paragraph)
 
 
-date1 = '2000-01-01'
-date2 = '2004-01-01'
+date1 = '2015-04-29'
+date2 = '2015-04-29'
 dates = pd.date_range(date1, date2,freq='B')
 stringed_dates = dates.strftime('%Y%m%d')
 
