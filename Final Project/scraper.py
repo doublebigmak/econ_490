@@ -1,3 +1,9 @@
+"""
+author: @michael mak
+script to scrape & parse html data of fomc public release statements
+"""
+
+#currently program is designed to repeatedly attack 
 from bs4 import BeautifulSoup
 import requests
 import re
@@ -6,15 +12,11 @@ import pandas as pd
 import csv
 import os
 
-
-
 url_addon = 'newsevents/pressreleases/monetary'
 
 url_addon_2='boarddocs/press/'
 
 url_base ='https://www.federalreserve.gov/'
-
-
 
 def parse_new(response):
    
