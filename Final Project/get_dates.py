@@ -7,8 +7,9 @@ script to get fomc meeting/statement dates
 from bs4 import BeautifulSoup
 import requests
 import re
-
+import numpy as np
 import pandas as pd
+
 
 #url for currently 2014 onwards statements
 new_url = 'https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm'
