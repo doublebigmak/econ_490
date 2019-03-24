@@ -20,3 +20,5 @@ historical_url = 'https://www.federalreserve.gov/monetarypolicy/fomchistorical'+
 response=requests.get(new_url, timeout=10)
 
 parsed_content = BeautifulSoup(response.content, "html.parser")
+
+print(parsed_content)
