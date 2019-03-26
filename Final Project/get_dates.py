@@ -21,4 +21,17 @@ response=requests.get(new_url, timeout=10)
 
 parsed_content = BeautifulSoup(response.content, "html.parser")
 
-print(parsed_content)
+article = parsed_content.find(attrs={'id':'article'})
+year_panels = article.find_all(attrs={'class':'panel panel-default'})
+panel_headings = article.find_all(attrs={'class':'panel-heading'})
+#print(article)
+#print(panel_headings)
+
+
+years=[]
+for item in panel_headings:
+
+    years.append(item.find('a'))
+
+#print(years)
+print(year_panels)
