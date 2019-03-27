@@ -29,7 +29,7 @@ panel_headings = article.find_all(attrs={'class':'panel-heading'})
 
 
 years=[]
-for item in panel_headings:
+for item in year_panels:
 
     years.append(item.find('a'))
 
