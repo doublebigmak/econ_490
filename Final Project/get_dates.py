@@ -33,5 +33,5 @@ for item in panel_headings:
 
     years.append(item.find('a'))
 
-#print(years)
-print(year_panels)
+print(years)
+#print(year_panels)
