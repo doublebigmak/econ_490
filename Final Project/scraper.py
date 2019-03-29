@@ -118,7 +118,7 @@ def main():
             url=url_base+'newsevents/pressreleases/monetary'+date+'a.htm'
             scrape_func(url,date)
         elif check_404(url_base+'newsevents/pressreleases/monetary'+date+'b.htm')==False:
-            url=url_base+'newsevents/pressreleases/monetary'+date+'a.htm'
+            url=url_base+'newsevents/pressreleases/monetary'+date+'b.htm'
             scrape_func(url,date)
         else:
             pass
