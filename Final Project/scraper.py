@@ -101,8 +101,8 @@ def scrape_func(url,date):
             wr.writerow(paragraph)
 
 
-date1 = '2015-04-29'
-date2 = '2015-04-29'
+date1 = '2002-09-25'
+date2 = '2019-03-01'
 dates = pd.date_range(date1, date2,freq='B')
 stringed_dates = dates.strftime('%Y%m%d')
 
