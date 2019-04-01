@@ -26,7 +26,7 @@ def getNewDates(url):
 
     article = parsed_content.find(attrs={'id':'article'})
     year_panels = article.find_all(attrs={'class':'panel panel-default'})
-    panel_headings = article.find_all(attrs={'class':'panel-heading'})
+    
     
     
     for item in year_panels:
@@ -37,7 +37,7 @@ def getNewDates(url):
         days = item.find_all(class_='fomc-meeting__date')
     
         for i in range(len(months)):
-            unscheduled = 0
+            #unscheduled = 0
             econ_proj = 0
             month = months[i].string.split('/')[-1:][0]
         
