@@ -101,26 +101,31 @@ def scrape_func(url,date):
             wr.writerow(paragraph)
 
 
-date1 = '2002-09-25'
-date2 = '2019-03-01'
-dates = pd.date_range(date1, date2,freq='B')
+date1 = '2010-05-08'
+date2 = '2010-05-10'
+dates = pd.date_range(date1, date2,freq='d')
 stringed_dates = dates.strftime('%Y%m%d')
 
 def main():
     for date in stringed_dates:
         if check_404(url_base+'boarddocs/press/'+'general/'+date[:4]+'/'+date+'/')==False:
+            print('1')
             url = url_base+'boarddocs/press/'+'general/'+date[:4]+'/'+date+'/'
             scrape_func(url,date)
         elif check_404(url_base+'boarddocs/press/'+'monetary/'+date[:4]+'/'+date+'/'+'default.htm')==False:
+            print('2')
             url = url_base+'boarddocs/press/'+'monetary/'+date[:4]+'/'+date+'/'+'default.htm'
             scrape_func(url,date)
         elif check_404(url_base+'newsevents/pressreleases/monetary'+date+'a.htm')==False:
+            print('3')
             url=url_base+'newsevents/pressreleases/monetary'+date+'a.htm'
             scrape_func(url,date)
         elif check_404(url_base+'newsevents/pressreleases/monetary'+date+'b.htm')==False:
+            print('4')
             url=url_base+'newsevents/pressreleases/monetary'+date+'b.htm'
             scrape_func(url,date)
         else:
+            print('5')
             pass
 
 main()
