@@ -10,7 +10,7 @@ Probably a better idea to collect list of dates of FOMC statements and running s
 Most likely more time efficient. 
 
 
-*Finished project.* Includes code for web scraper, sentiment generator, and various analytical notebooks. 
+_*Finished project.*_ Includes code for web scraper, sentiment generator, and various analytical notebooks. 
 Presentation files are also completed.
 
 Research paper can be found on www.michael-mak.ca
