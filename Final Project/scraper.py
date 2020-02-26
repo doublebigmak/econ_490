@@ -39,6 +39,7 @@ def parse_old(response):
         try:
             return text[1]
         except IndexError as e:
+            print(e)
             pass
 
 
@@ -68,6 +69,7 @@ def check_404(url):
     try:
         return parsed_content.find('h2').text=='Page not found'
     except AttributeError as e:
+        print(e)
         return False
 
 def is_new_page(response):
